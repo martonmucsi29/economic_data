@@ -44,9 +44,9 @@ namespace EcoData.Logic
                 return economics;
             }
         }
-        public List<Economic> DeReader(string dePath)
+        public List<Demographics> DeReader(string dePath)
         {
-            List<Economic> demographics = new List<Economic>();
+            List<Demographics> demographics = new List<Demographics>();
 
             using (StreamReader sr = new StreamReader(dePath))
             {
@@ -70,7 +70,7 @@ namespace EcoData.Logic
                         Console.WriteLine(ex.Message);
                         continue;
                     }
-                    Economic ecoData = new Economic(year, bontott_sor[1], population);
+                    Demographics ecoData = new Demographics(year, bontott_sor[1], population);
                     demographics.Add(ecoData);
                 }
                 return demographics;
