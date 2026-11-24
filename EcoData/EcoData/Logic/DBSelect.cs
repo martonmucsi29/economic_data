@@ -63,5 +63,72 @@ namespace EcoData.Logic
                 connection.Close();
             }
         }
-    }
+        public static void SelectPopData()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionstring))
+            {
+                connection.Open();
+
+                string query = "SELECT c.country, ROUND((duj.population - dregen.population) * 100.0 / dregen.population, 2) AS valtozas_szazalek FROM countries c JOIN demographics duj ON c.id = duj.country_id JOIN demographics dregen ON c.id = dregen.country_id WHERE duj.year = (SELECT MAX(year) FROM demographics) AND dregen.year = (SELECT MAX(year) - 15 FROM demographics);";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string name = reader.GetString(0);
+                            int popchange = reader.GetInt32(1);
+
+                            if( popchange >= 1.5)
+                            {
+                                Console.BackgroundColor = ConsoleColor.Green;
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            else if(popchange < 1.5 && popchange > -1.5){
+                                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                            }
+                            else if(popchange < -1.5)
+                            {
+                                Console.BackgroundColor = ConsoleColor.Red;
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                            }
+                            Console.WriteLine($"\n{name}: {popchange}%");
+                        }
+                    }
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+        }
+        public static void SelectEUPopData()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionstring))
+            {
+                connection.Open();
+
+                string query = "SELECT d.year, SUM(d.population) AS population FROM demographics d GROUP BY d.year;";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int year = reader.GetInt32(0);
+                            int eupop = reader.GetInt32(1);
+                            
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine($"\n{year}: {eupop}");
+                            
+                        }
+                    }
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+        }
+        }
 }

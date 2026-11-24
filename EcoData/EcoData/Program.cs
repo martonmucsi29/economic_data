@@ -21,11 +21,17 @@ namespace EcoData
             demographics = readCSV.DeReader("CSV\\eu_demographic_data.csv");
             countries = readCSV.CoReader("CSV\\eu_countries.csv");
 
-            DBManager.DBConnection(economics, demographics, countries);
-            Console.WriteLine(" Összesített inflácó: ");
+            //DBManager.DBConnection(economics, demographics, countries);
+            Console.WriteLine("\n Összesített inflácó: ");
             DBSelect.SelectInfData();
-            Console.WriteLine(" Összesített GDP növekedett: ");
+            Console.WriteLine("\n Összesített GDP növekedett: ");
             DBSelect.SelectGDPData();
+            Console.WriteLine("\n Népesség változás az elmúlt 15 évben: ");
+            DBSelect.SelectPopData();
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n Az EU népsessége évekre lebontva: ");
+            DBSelect.SelectEUPopData();
         }
     }
 }
