@@ -18,7 +18,8 @@ namespace EcoData.Logic
             {
                 sr.ReadLine();
 
-                DateTime year;
+                int year;
+                int country_id;
                 decimal gdp_growth;
                 decimal inflation;
 
@@ -29,16 +30,17 @@ namespace EcoData.Logic
 
                     try
                     {
-                        year = DateTime.Parse(bontott_sor[0]);
-                        gdp_growth = decimal.Parse(bontott_sor[3]);
-                        inflation = decimal.Parse(bontott_sor[4]);
+                        year = int.Parse(bontott_sor[0]);
+                        country_id = int.Parse(bontott_sor[1]);
+                        gdp_growth = decimal.Parse(bontott_sor[2].Replace('.', ','));
+                        inflation = decimal.Parse(bontott_sor[3].Replace('.', ','));
                     }
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                         continue;
                     }
-                    Economic ecoData = new Economic(year, bontott_sor[1], gdp_growth, inflation);
+                    Economic ecoData = new Economic(year, country_id, gdp_growth, inflation);
                     economics.Add(ecoData);
                 }
                 return economics;
@@ -52,7 +54,8 @@ namespace EcoData.Logic
             {
                 sr.ReadLine();
 
-                DateTime year;
+                int year;
+                int country_id;
                 int population;
 
                 while (!sr.EndOfStream)
@@ -62,7 +65,8 @@ namespace EcoData.Logic
 
                     try
                     {
-                        year = DateTime.Parse(bontott_sor[0]);
+                        year = int.Parse(bontott_sor[0]);
+                        country_id = int.Parse(bontott_sor[1]);
                         population = int.Parse(bontott_sor[2]);
                     }
                     catch (Exception ex)
@@ -70,10 +74,40 @@ namespace EcoData.Logic
                         Console.WriteLine(ex.Message);
                         continue;
                     }
-                    Demographics ecoData = new Demographics(year, bontott_sor[1], population);
+                    Demographics ecoData = new Demographics(year, country_id, population);
                     demographics.Add(ecoData);
                 }
                 return demographics;
+            }
+        }
+        public List<Country> CoReader(string coPath)
+        {
+            List<Country> countries = new List<Country>();
+
+            using (StreamReader sr = new StreamReader(coPath))
+            {
+                sr.ReadLine();
+
+                int id;
+
+                while (!sr.EndOfStream)
+                {
+                    var sor = sr.ReadLine();
+                    string[] bontott_sor = sor.Split(',');
+
+                    try
+                    {
+                        id = int.Parse(bontott_sor[0]);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        continue;
+                    }
+                    Country countryData = new Country(id, bontott_sor[1]);
+                    countries.Add(countryData);
+                }
+                return countries;
             }
         }
     }

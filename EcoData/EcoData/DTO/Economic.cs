@@ -8,20 +8,20 @@ namespace EcoData.DTO
 {
     internal class Economic
     {
-        private DateTime year;
-        private string country;
+        private int year;
+        private int country_id;
         private decimal gdp_growth;
         private decimal inflation;
 
-        public DateTime Year
+        public int Year
         {
             get { return year; }
             set { year = value; }
         }
-        public string Country
+        public int CountryId
         {
-            get { return country; }
-            set { country = value; }
+            get { return country_id; }
+            set { country_id = value; }
         }
         public decimal Gdp_growth
         {
@@ -33,10 +33,10 @@ namespace EcoData.DTO
             get { return inflation; }
             set { inflation = value; }
         }
-        public Economic(DateTime year, string country, decimal gdp_growth, decimal inflation)
+        public Economic(int year, int country_id, decimal gdp_growth, decimal inflation)
         {
             this.year = year;
-            this.country = country;
+            this.country_id = country_id;
             this.gdp_growth = gdp_growth;
             this.inflation = inflation;
         }

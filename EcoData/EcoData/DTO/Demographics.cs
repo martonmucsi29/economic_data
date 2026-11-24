@@ -8,29 +8,29 @@ namespace EcoData.DTO
 {
     internal class Demographics
     {
-        private DateTime year;
-        private string country;
+        private int year;
+        private int country_id;
         private int population;
 
-        public DateTime Year
+        public int Year
         {
             get { return year; }
             set { year = value; }
         }
-        public string Country
+        public int CountryId
         {
-            get { return country; }
-            set { country = value; }
+            get { return country_id; }
+            set { country_id = value; }
         }
         public int Population
         {
             get { return population; }
             set { population = value; }
         }
-        public Demographics(DateTime year, string country, int population)
+        public Demographics(int year, int country_id, int population)
         {
             this.year = year;
-            this.country = country;
+            this.country_id = country_id;
             this.population = population;
         }
     }
